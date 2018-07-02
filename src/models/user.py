@@ -1,16 +1,21 @@
 import datetime
 import uuid
+
+from flask import session
+
 from src.common.database import Database
+from src.models.blog import Blog
+
 
 class User():
     def __init__(self, email, password, _id=None):
         self.email = email
-        self.passwprd = password
+        self.password = password
         self._id = uuid.uuid4().hex if _id is None else _id
 
 
     @classmethod
-    def get_by_email(self, email):
+    def get_by_email(cls, email):
         data = Database.find_one("users", {"email": email})
 
         if data is not None:
@@ -19,21 +24,21 @@ class User():
 
 
     @classmethod
-    def get_by_id(self, _id):
+    def get_by_id(cls, _id):
         data = Database.find_one("users", {"_id": _id})
 
         if data is not None:
             return cls(**data)
 
     @staticmethod
-    def login_valid(self, email, password):
+    def login_valid(email, password):
         user = User.get_by_email(email)
         if user is not None:
             return user.password == password
         return False
 
     @classmethod
-    def register(email, password):
+    def register(cls, email, password):
         user = User.get_by_email(email)
         if user is not None:
             new_user = cls(email, password)
@@ -47,7 +52,7 @@ class User():
     def login(user_email):
         session['email'] = user_email
 
-    def logout():
+    def logout(self):
         session['email'] = None
 
     def get_blogs(self):
@@ -63,7 +68,7 @@ class User():
 
 
     @staticmethod
-    def new_post(self, blog_id, title, content, date=datetime.datetime.utcnow()):
+    def new_post(blog_id, title, content, date=datetime.datetime.utcnow()):
         blog = Blog.from_mongo(blog_id)
         blog.new_post(title=title,
                       content=content,
