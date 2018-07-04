@@ -1,4 +1,5 @@
 from src.common.database import Database
+from src.models.blog import Blog
 from src.models.user import User
 
 __author__ = 'inchan'
@@ -61,6 +62,12 @@ def user_blogs(user_id=None):
 
     return render_template("user_blogs.html", blogs=blogs, email=user.email)
 
+@app.route('/posts/<string:blog_id>')
+def blog_posts(blog_id):
+    blog = Blog.from_mongo(blog_id)
+    posts = blog.get_posts()
+
+    return render_template('posts.html', posts=posts, blog_title = blog.title)
 
 if __name__ == '__main__':
     app.config.update(DEBUG=True)
