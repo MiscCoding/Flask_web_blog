@@ -42,7 +42,7 @@ class Blog(object):
         return Post.from_blog(self._id)
 
     def save_to_mongo(self):
-        Database.insert(collection='blog',
+        Database.insert(collection='blogs',
                         data=self.json())
 
     def json(self):
