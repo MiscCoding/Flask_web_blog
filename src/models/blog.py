@@ -51,7 +51,7 @@ class Blog(object):
             'author_id': self.author_id,
             'title' : self.title,
             'description' : self.description,
-            'id' : self._id
+            '_id' : self._id
         }
 
     @classmethod
